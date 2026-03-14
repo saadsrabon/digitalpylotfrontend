@@ -1,74 +1,98 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { loginUser } from "@/services/auth.service";
 
-type LoginData = {
+type FormData = {
   email: string;
   password: string;
 };
 
 export default function LoginForm() {
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginData>({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
 
-  const onSubmit = async (data: LoginData): Promise<void> => {
+  const router = useRouter();
+
+  const { register, handleSubmit } = useForm<FormData>();
+
+  const onSubmit = async (data: FormData) => {
     try {
-      const res = await loginUser(data);
-      console.log("Login successful:", res);
-      // Add navigation or success handling here, e.g., router.push('/dashboard');
+
+      await loginUser(data);
+
+      router.push("/dashboard");
+
     } catch (error) {
-      console.error("Login failed:", error);
-      // Add error handling, e.g., set an error state and display it
+      console.log(error);
     }
   };
 
   return (
-    <div>
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-4"
-    >
-      <input
-        {...register("email", {
-          required: "Email is required",
-          pattern: {
-            value: /^\S+@\S+$/i,
-            message: "Invalid email address",
-          },
-        })}
-        type="email"
-        placeholder="Email"
-        className="border p-2 rounded"
-      />
-      {errors.email && <p className="text-red-500">{errors.email.message}</p>}
 
-      <input
-        {...register("password", {
-          required: "Password is required",
-          minLength: {
-            value: 6,
-            message: "Password must be at least 6 characters",
-          },
-        })}
-        type="password"
-        placeholder="Password"
-        className="border p-2 rounded"
-      />
-      {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+    <div className="bg-white w-[420px] rounded-2xl p-8 shadow-xl">
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="bg-black text-white p-2 rounded disabled:opacity-50"
+      <h2 className="text-2xl font-semibold text-center">
+        Login
+      </h2>
+
+      <p className="text-gray-400 text-center mb-6">
+        Enter your details to continue
+      </p>
+
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-4"
       >
-        {isSubmitting ? "Logging in..." : "Login"}
-      </button>
-    </form>
+
+        <div>
+          <label className="text-sm">Email</label>
+
+          <input
+            {...register("email")}
+            placeholder="example@email.com"
+            className="w-full border rounded-lg p-3 mt-1"
+          />
+        </div>
+
+        <div>
+          <label className="text-sm">Password</label>
+
+          <input
+            {...register("password")}
+            type="password"
+            placeholder="Enter your password"
+            className="w-full border rounded-lg p-3 mt-1"
+          />
+        </div>
+
+        <div className="flex justify-between text-sm">
+
+          <label className="flex items-center gap-2">
+            <input type="checkbox" />
+            Remember me
+          </label>
+
+          <span className="text-orange-500 cursor-pointer">
+            Forgot password?
+          </span>
+
+        </div>
+
+        <button
+          className="bg-orange-500 text-white p-3 rounded-lg shadow-md hover:bg-orange-600 transition"
+        >
+          Log in
+        </button>
+
+      </form>
+
+      <p className="text-center text-sm mt-6">
+        Don’t have an account?
+        <span className="font-semibold ml-1 cursor-pointer">
+          Sign up
+        </span>
+      </p>
+
     </div>
   );
 }
