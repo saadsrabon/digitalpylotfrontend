@@ -29,7 +29,7 @@ export default function LoginForm() {
 
   return (
 
-    <div className="bg-white w-[420px] rounded-2xl p-8 shadow-xl">
+    <div className="bg-white w-105 rounded-2xl p-8 shadow-xl">
 
       <h2 className="text-2xl font-semibold text-center">
         Login
