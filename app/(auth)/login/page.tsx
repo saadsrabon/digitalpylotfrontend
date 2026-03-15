@@ -1,5 +1,6 @@
 "use client";
 
+import LoginPreview from "@/components/auth/login-preview";
 import LoginForm from "@/components/forms/login-form";
 
 export default function LoginPage() {
@@ -20,12 +21,7 @@ export default function LoginPage() {
 
       {/* RIGHT SIDE */}
       <div className="hidden lg:flex w-1/2 items-center justify-center p-10">
-        <div className="rounded-3xl overflow-hidden shadow-xl">
-          <img
-            src="/login-preview.png"
-            className="w-full h-full object-cover"
-          />
-        </div>
+       <LoginPreview/>
       </div>
 
     </div>
