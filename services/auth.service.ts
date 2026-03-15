@@ -1,6 +1,6 @@
 import api from "@/lib/api";
 
-export const loginUser = async (data: {
+export const loginRequest = async (data: {
   email: string;
   password: string;
 }) => {
@@ -8,12 +8,11 @@ export const loginUser = async (data: {
   return res.data;
 };
 
-export const logoutUser = async () => {
-  const res = await api.post("/auth/logout");
-  return res.data;
-};
-
 export const getProfile = async () => {
   const res = await api.get("/auth/me");
   return res.data;
+};
+
+export const logoutRequest = async () => {
+  await api.post("/auth/logout");
 };
