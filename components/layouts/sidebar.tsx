@@ -1,32 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-
-const menuItems = [
-  { name: "Dashboard", href: "/dashboard" },
-  { name: "Users", href: "/dashboard/users" },
-  { name: "Roles", href: "/dashboard/roles" },
-  { name: "Permissions", href: "/dashboard/permissions" },
-];
+import { useNavigation } from "@/hooks/useNavigation";
 
 export default function Sidebar() {
-  const pathname = usePathname();
-
+  const navItems = useNavigation();
+console.log("Allowed Navigation Items:", navItems);
   return (
-    <aside className="w-64 h-screen bg-gray-900 text-white p-6">
-      <h1 className="text-xl font-bold mb-10">RBAC Admin</h1>
+    <aside className="w-64 bg-gray-900 text-white min-h-screen p-6">
+      <h1 className="text-xl font-semibold mb-8">
+        RBAC System
+      </h1>
 
-      <nav className="flex flex-col gap-4">
-        {menuItems.map((item) => (
+      <nav className="flex flex-col gap-3">
+        {navItems.map((item) => (
           <Link
-            key={item.name}
-            href={item.href}
-            className={`p-2 rounded transition ${
-              pathname === item.href
-                ? "bg-gray-700"
-                : "hover:bg-gray-800"
-            }`}
+            key={item.path}
+            href={item.path}
+            className="hover:bg-gray-800 p-2 rounded"
           >
             {item.name}
           </Link>
